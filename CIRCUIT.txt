@@ -1,0 +1,81 @@
+#include<iostream.h>
+#include<math.h>
+#include<fstream.h>
+#include<iomanip.h>
+#include<conio.h>
+ofstream output("rc.txt");
+class rc
+
+{
+int i,j,k;
+float t,n,R,V1,V2,q1,q2,q3,ti,ti1,ti2,ti3,tf,C,h,Io,I1,I2,I3,O,o,x,w,W;
+public:
+void getdata();
+void charging();
+void discharging();
+void alternating();
+};
+void rc::getdata()
+{
+cout<<"Enter values for Resistance,capacitor,intial time,final time,voltage of source,time step and frequency repectively"<<endl;
+cin>>R>>C>>ti>>tf>>V1>>h>>w;
+}
+void rc::charging()
+{
+q1=0.0;
+ti1=0.0;
+I1=0.0;
+n=(tf-ti)/h;
+output<<"RC Charging"<<endl;
+output<<"Time"<<setw(20) <<"Charge"<<setw(20)<<"Current"<<endl;
+for(i=0;i<=n;i++)
+{
+ I1=(V1/R)-(q1/(R*C));
+ output<<ti1<<setw(20)<<q1<<setw(20)<<I1<<endl;
+ ti1=ti1+h;
+ q1=q1+(h*I1);
+ }
+}
+void rc::discharging()
+ {
+  q2=0.2;
+  V2=0.0;
+  ti2=0.0;
+  output<<"RC discharging"<<endl;
+  output<<"Time"<<setw(20) <<"Charge"<<setw(20)<<"Current"<<endl;
+  for(j=0;j<=n;j++)
+  {
+   I2=(V2/R)-(q2/(R*C));
+   output<<ti2<<setw(20)<<q2<<setw(20)<<I2<<endl;
+   ti2=ti2+h;
+   q2=q2+(h*I2);
+   }
+  }
+void rc::alternating()
+{
+ W=2*3.14*w;
+ O=(atan(1/(W*R*C)))*(3.14/180);
+ Io=V1/(sqrt(R*R+(1/(W*W*C*C))));
+ q3=0.0;
+ ti3=0.0;
+ output<<"RC alternaing"<<endl;
+ output<<"Time"<<setw(20) <<"Charge"<<setw(20)<<"Current"<<endl;
+ for(k=0;k<=n;k++)
+ {
+  I3=Io*cos((W*ti3)+O);
+  output<<ti3<<setw(20)<<q3<<setw(20)<<I3<<endl;
+  ti3=ti3+h;
+  q3=q3+(h*I3);
+  }
+ }
+ int main()
+ {
+  rc x;
+  x.getdata();
+  x.charging();
+  x.discharging();
+  x.alternating();
+  return(0);
+  }
+
+
